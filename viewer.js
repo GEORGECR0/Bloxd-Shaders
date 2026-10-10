@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
 import { ID_TO_NAME, NAME_TO_IMAGE } from './blockData.js';
 
-const PLANT_IDS = new Set([1109, 1110, 150, 2016, 154, 1962, 1963, 1964]);
+const PLANT_IDS = new Set([1109, 1110, 150, 2016, 154, 1962, 1963, 1964 , 956 , 957 , 1102 , 1103 , 1492 , 1493]);
 const canvas = document.getElementById('viewer-canvas');
 
 const scene = new THREE.Scene();
@@ -175,31 +175,6 @@ function getBlockMaterial(blockID) {
     return materialCache[blockID];
 }
 
-function createGround(sizeX, sizeZ) {
-    if (ground) {
-        scene.remove(ground);
-        ground.geometry.dispose();
-        ground.material.dispose();
-    }
-
-    const size = Math.max(sizeX, sizeZ) + 100;
-
-    ground = new THREE.Mesh(
-        new THREE.PlaneGeometry(size, size),
-        new THREE.ShadowMaterial({
-            opacity: 0.45,
-            transparent: true,
-            depthWrite: false
-        })
-    );
-
-    ground.rotation.x = -Math.PI / 2;
-    ground.position.set(sizeX / 2, -0.51, sizeZ / 2);
-    ground.receiveShadow = true;
-
-    scene.add(ground);
-}
-
 function clearScene() {
     activeMeshes.forEach(mesh => {
         scene.remove(mesh);
@@ -217,7 +192,6 @@ function displaySchematic(schematic) {
 
     if (!schematic.blocks.length) return;
 
-    createGround(schematic.size[0], schematic.size[2]);
 
     const blocksByType = {};
 
